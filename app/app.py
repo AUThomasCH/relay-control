@@ -126,7 +126,7 @@ def updateRelay(relayID):
 # Return software info
 @app.route('/info', methods=['GET'])
 def getInfo():
-    return jsonify({'version': 'v1.0'})
+    return jsonify({'version': 'v1.5'})
 
 # If Flask has a 404, return a JSON error message
 @app.errorhandler(404)
