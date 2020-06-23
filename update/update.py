@@ -22,8 +22,8 @@ if signature.status == "signature valid":
     print(status.stderr)
 
     os.system('rm -rf /home/pi/relay-control/app/*')
-    os.system('unzip -o /home/pi/relay-control.zip')
-    os.system('rm /home/pi/relay-control.zip')
+    os.system('unzip -o -d /home/pi /home/pi/relay-control.zip')
+    os.system('rm /home/pi/relay-control.zip*')
     os.system('service relay-control-app start')
 else:
     print("Signature invalid or missing!")
