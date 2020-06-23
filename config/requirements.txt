@@ -1,0 +1,13 @@
+Flask
+flask-restful
+
+setuptools
+RPI.GPIO
+adafruit-blinka
+
+adafruit-circuitpython-pca9685
+
+adafruit-circuitpython-busdevice
+adafruit-circuitpython-register
+adafruit-circuitpython-motor
+adafruit-circuitpython-servokit

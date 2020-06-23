@@ -1,0 +1,12 @@
+[Unit]
+Description=Relay-Control Update Service
+After=multi-user.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/python3 /home/pi/relay-control/update/update.py
+
+[Install]
+WantedBy=multi-user.target
