@@ -2,32 +2,40 @@ import os
 import fs
 from fs import open_fs
 import gnupg
+import socket
 
 gpg = gnupg.GPG()
 
-os.system('cd /home/pi/ && wget https://github.com/AUThomasCH/relay-control/releases/latest/download/relay-control.zip.gpg')
+try:
+    socket.create_connection(("github.com", 443))
+    print("Connection to GitHub ok.")
 
-fileStream = open('/home/pi/relay-control.zip.gpg', "rb")
-signature = gpg.verify_file(fileStream)
+    os.system('cd /home/pi/ && wget https://github.com/AUThomasCH/relay-control/releases/latest/download/relay-control.zip.gpg')
 
-if signature.status == "signature valid":
-    print("Signature is valid!")
+    fileStream = open('/home/pi/relay-control.zip.gpg', "rb")
+    signature = gpg.verify_file(fileStream)
 
-    with open('/home/pi/relay-control.zip.gpg', 'rb') as f:
-        status = gpg.decrypt_file(
-            file=f,
-            output='/home/pi/relay-control.zip',
-    )
+    if signature.status == "signature valid":
+        print("Signature is valid!")
 
-    print(status.stderr)
+        with open('/home/pi/relay-control.zip.gpg', 'rb') as f:
+            status = gpg.decrypt_file(
+                file=f,
+                output='/home/pi/relay-control.zip',
+            )
 
-    os.system('rm -rf /home/pi/relay-control/app/*')
-    os.system('unzip -o -d /home/pi /home/pi/relay-control.zip')
-    os.system('rm /home/pi/relay-control.zip*')
+        print(status.stderr)
+
+        os.system('rm -rf /home/pi/relay-control/app/*')
+        os.system('unzip -o -d /home/pi /home/pi/relay-control.zip')
+        os.system('rm /home/pi/relay-control.zip*')
+
+    else:
+        print("Signature invalid or missing!")
+
+except Exception as e:
+		print(str(e))
+
+finally:
     os.system('service relay-control-app start')
-else:
-    print("Signature invalid or missing!")
-    print("Aborting script execution")
-
-
-raise SystemExit
+    raise SystemExit
