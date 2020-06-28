@@ -34,7 +34,7 @@ try:
         print("Signature invalid or missing!")
 
 except Exception as e:
-		print(str(e))
+    print(str(e))
 
 finally:
     os.system('service relay-control-app start')
